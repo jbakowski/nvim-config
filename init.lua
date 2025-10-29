@@ -37,3 +37,13 @@ require "autocmds"
 vim.schedule(function()
   require "mappings"
 end)
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*",
+  callback = function()
+    local exclude = { "markdown", "diff", "gitcommit" }
+    if not vim.tbl_contains(exclude, vim.bo.filetype) then
+      vim.cmd([[%s/\s\+$//e]])
+    end
+  end,
+})
