@@ -1,7 +1,7 @@
 return {
   {
     "stevearc/conform.nvim",
-    -- event = 'BufWritePre', -- uncomment for format on save
+    event = "BufWritePre", -- uncomment for format on save
     opts = require "configs.conform",
   },
 
@@ -16,8 +16,16 @@ return {
     "nvim-treesitter/nvim-treesitter",
     opts = {
       ensure_installed = {
-        "vim", "lua", "vimdoc",
-        "c", "cpp", "python", "cmake", "bash", "json", "yaml"
+        "vim",
+        "lua",
+        "vimdoc",
+        "c",
+        "cpp",
+        "python",
+        "cmake",
+        "bash",
+        "json",
+        "yaml",
       },
     },
   },
@@ -47,7 +55,7 @@ return {
     "lewis6991/gitsigns.nvim",
     event = "BufRead",
     config = function()
-      require("gitsigns").setup({
+      require("gitsigns").setup {
         on_attach = function(bufnr)
           local gs = package.loaded.gitsigns
           local function map(mode, l, r, opts)
@@ -57,33 +65,49 @@ return {
           end
 
           -- Navigation
-          map('n', ']c', function()
-            if vim.wo.diff then return ']c' end
-            vim.schedule(function() gs.next_hunk() end)
-            return '<Ignore>'
-          end, {expr=true, desc = "Next hunk"})
+          map("n", "]c", function()
+            if vim.wo.diff then
+              return "]c"
+            end
+            vim.schedule(function()
+              gs.next_hunk()
+            end)
+            return "<Ignore>"
+          end, { expr = true, desc = "Next hunk" })
 
-          map('n', '[c', function()
-            if vim.wo.diff then return '[c' end
-            vim.schedule(function() gs.prev_hunk() end)
-            return '<Ignore>'
-          end, {expr=true, desc = "Previous hunk"})
+          map("n", "[c", function()
+            if vim.wo.diff then
+              return "[c"
+            end
+            vim.schedule(function()
+              gs.prev_hunk()
+            end)
+            return "<Ignore>"
+          end, { expr = true, desc = "Previous hunk" })
 
           -- Actions
-          map('n', '<leader>hs', gs.stage_hunk, { desc = "Stage hunk" })
-          map('n', '<leader>hr', gs.reset_hunk, { desc = "Reset hunk" })
-          map('v', '<leader>hs', function() gs.stage_hunk {vim.fn.line('.'), vim.fn.line('v')} end, { desc = "Stage hunk" })
-          map('v', '<leader>hr', function() gs.reset_hunk {vim.fn.line('.'), vim.fn.line('v')} end, { desc = "Reset hunk" })
-          map('n', '<leader>hS', gs.stage_buffer, { desc = "Stage buffer" })
-          map('n', '<leader>hu', gs.undo_stage_hunk, { desc = "Undo stage hunk" })
-          map('n', '<leader>hR', gs.reset_buffer, { desc = "Reset buffer" })
-          map('n', '<leader>hp', gs.preview_hunk, { desc = "Preview hunk" })
-          map('n', '<leader>hb', function() gs.blame_line{full=true} end, { desc = "Blame line" })
-          map('n', '<leader>tb', gs.toggle_current_line_blame, { desc = "Toggle line blame" })
-          map('n', '<leader>hd', gs.diffthis, { desc = "Diff this" })
-          map('n', '<leader>hD', function() gs.diffthis('~') end, { desc = "Diff this ~" })
-        end
-      })
+          map("n", "<leader>hs", gs.stage_hunk, { desc = "Stage hunk" })
+          map("n", "<leader>hr", gs.reset_hunk, { desc = "Reset hunk" })
+          map("v", "<leader>hs", function()
+            gs.stage_hunk { vim.fn.line ".", vim.fn.line "v" }
+          end, { desc = "Stage hunk" })
+          map("v", "<leader>hr", function()
+            gs.reset_hunk { vim.fn.line ".", vim.fn.line "v" }
+          end, { desc = "Reset hunk" })
+          map("n", "<leader>hS", gs.stage_buffer, { desc = "Stage buffer" })
+          map("n", "<leader>hu", gs.undo_stage_hunk, { desc = "Undo stage hunk" })
+          map("n", "<leader>hR", gs.reset_buffer, { desc = "Reset buffer" })
+          map("n", "<leader>hp", gs.preview_hunk, { desc = "Preview hunk" })
+          map("n", "<leader>hb", function()
+            gs.blame_line { full = true }
+          end, { desc = "Blame line" })
+          map("n", "<leader>tb", gs.toggle_current_line_blame, { desc = "Toggle line blame" })
+          map("n", "<leader>hd", gs.diffthis, { desc = "Diff this" })
+          map("n", "<leader>hD", function()
+            gs.diffthis "~"
+          end, { desc = "Diff this ~" })
+        end,
+      }
     end,
   },
 
@@ -92,8 +116,8 @@ return {
     "folke/persistence.nvim",
     event = "BufReadPre",
     opts = {
-      dir = vim.fn.expand(vim.fn.stdpath("state") .. "/sessions/"),
-      options = { "buffers", "curdir", "tabpages", "winsize" }
+      dir = vim.fn.expand(vim.fn.stdpath "state" .. "/sessions/"),
+      options = { "buffers", "curdir", "tabpages", "winsize" },
     },
   },
 
@@ -109,7 +133,7 @@ return {
     dependencies = "nvim-treesitter/nvim-treesitter",
     event = "BufRead",
     config = function()
-      require("nvim-treesitter.configs").setup({
+      require("nvim-treesitter.configs").setup {
         textobjects = {
           select = {
             enable = true,
@@ -142,7 +166,7 @@ return {
             },
           },
         },
-      })
+      }
     end,
   },
 
@@ -176,10 +200,10 @@ return {
     "RRethy/vim-illuminate",
     event = "BufRead",
     config = function()
-      require("illuminate").configure({
+      require("illuminate").configure {
         delay = 100,
         under_cursor = true,
-      })
+      }
     end,
   },
 
@@ -204,8 +228,8 @@ return {
       "nvim-neotest/nvim-nio",
     },
     config = function()
-      local dap = require("dap")
-      local dapui = require("dapui")
+      local dap = require "dap"
+      local dapui = require "dapui"
 
       dapui.setup()
 
@@ -224,7 +248,7 @@ return {
       dap.adapters.gdb = {
         type = "executable",
         command = "gdb",
-        args = { "-i", "dap" }
+        args = { "-i", "dap" },
       }
 
       dap.configurations.c = {
@@ -233,15 +257,15 @@ return {
           type = "gdb",
           request = "launch",
           program = function()
-            return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/build/', 'file')
+            return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/build/", "file")
           end,
-          cwd = '${workspaceFolder}',
+          cwd = "${workspaceFolder}",
           stopAtBeginningOfMainSubprogram = false,
           setupCommands = {
             {
-              text = '-enable-pretty-printing',
-              description = 'enable pretty printing',
-              ignoreFailures = false
+              text = "-enable-pretty-printing",
+              description = "enable pretty printing",
+              ignoreFailures = false,
             },
           },
         },
@@ -255,7 +279,7 @@ return {
     "folke/which-key.nvim",
     event = "VeryLazy",
     config = function()
-      require("which-key").setup({})
+      require("which-key").setup {}
     end,
   },
 
@@ -264,10 +288,10 @@ return {
     "klen/nvim-config-local",
     event = "VimEnter",
     config = function()
-      require("config-local").setup({
+      require("config-local").setup {
         lookup_parents = true,
         config_files = { ".nvim.lua", ".nvimrc" },
-      })
+      }
     end,
   },
 

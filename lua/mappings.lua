@@ -7,6 +7,9 @@ local map = vim.keymap.set
 map("n", ";", ":", { desc = "CMD enter command mode" })
 map("i", "jk", "<ESC>")
 map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>", { desc = "Save file" })
+map("n", "<leader>rn", function()
+  vim.wo.relativenumber = not vim.wo.relativenumber
+end, { desc = "Toggle relative line numbers" })
 
 -- Build & Development
 map("n", "<leader>bb", "<cmd>OverseerRun<CR>", { desc = "Build: Open build menu" })
@@ -88,5 +91,5 @@ map("n", "gi", vim.lsp.buf.implementation, { desc = "LSP: Go to implementation" 
 map("n", "gr", vim.lsp.buf.references, { desc = "LSP: References" })
 map("n", "K", vim.lsp.buf.hover, { desc = "LSP: Hover" })
 map("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "LSP: Code action" })
-map("n", "<leader>rn", vim.lsp.buf.rename, { desc = "LSP: Rename" })
+map("n", "<leader>ra", vim.lsp.buf.rename, { desc = "LSP: Rename" })
 map("n", "<leader>lf", function() require("conform").format({ async = true, lsp_fallback = true }) end, { desc = "LSP: Format" })
