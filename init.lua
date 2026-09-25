@@ -1,8 +1,6 @@
 vim.g.base46_cache = vim.fn.stdpath "data" .. "/base46/"
 vim.g.mapleader = " "
 
-vim.api.nvim_set_option("clipboard", "unnamed")
-
 -- bootstrap lazy and all plugins
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 
@@ -34,16 +32,23 @@ dofile(vim.g.base46_cache .. "statusline")
 require "options"
 require "autocmds"
 
+vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+  pattern = { "*" },
+  callback = function()
+    if not vim.bo.modifiable then -- e.g. :w of a help or checkhealth buffer
+      return
+    end
+    local view = vim.fn.winsaveview()
+    vim.cmd([[keeppatterns %s/\s\+$//e]])
+    vim.fn.winrestview(view)
+  end,
+})
+
+vim.opt.foldmethod = 'expr'
+vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+vim.opt.foldenable = false  -- don't fold by default when opening files
+vim.opt.foldlevel = 99
+
 vim.schedule(function()
   require "mappings"
 end)
-
-vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = "*",
-  callback = function()
-    local exclude = { "markdown", "diff", "gitcommit" }
-    if not vim.tbl_contains(exclude, vim.bo.filetype) then
-      vim.cmd([[%s/\s\+$//e]])
-    end
-  end,
-})
